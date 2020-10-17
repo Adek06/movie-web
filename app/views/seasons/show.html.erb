@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @season.title %>
+</p>
+
+<p>
+  <strong>Dir path:</strong>
+  <%= @season.dir_path %>
+</p>
+
+<%= link_to 'Edit', edit_season_path(@season) %> |
+<%= link_to 'Back', seasons_path %>
