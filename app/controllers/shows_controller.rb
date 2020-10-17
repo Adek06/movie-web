@@ -10,6 +10,7 @@ class ShowsController < ApplicationController
   # GET /shows/1
   # GET /shows/1.json
   def show
+    @seasons = Season.where("show_id = ?", @show.id)
   end
 
   # GET /shows/new
