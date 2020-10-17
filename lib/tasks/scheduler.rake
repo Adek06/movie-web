@@ -1,5 +1,5 @@
 task :scanvideos => :environment do
-    root = '/home/adek06/movie-web/public/videos'
+    root = "#{Rails.root.to_s}/public/videos"
     shows_path = get_all_shows(root)
     seasons = []
     shows_path.each do |show_path|
