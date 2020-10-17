@@ -1,0 +1,17 @@
+p id="notice" = notice
+h2 = @video.title
+
+div class="grid grid-rows-5 lg:grid-cols-4 sm:grid-cols-1"
+    div class="row-span-5 lg:col-span-3"
+        video[width="100%" height="100%" controls]
+            source[src="#{@video.file_path}" type="video/mp4"]
+            你的浏览器不支持播放
+    div class="row-span-5 border border-teal-900"
+      p
+        | This line is on the left margin.
+          This line will have one space in front of it.
+            This line will have two spaces in front of it.
+              And so on...
+= link_to 'Edit', edit_video_path(@video) 
+|  |  
+= link_to 'Back', videos_path
