@@ -1,5 +1,5 @@
-task :scanvideos => :environment do
-    root = "#{Rails.root.to_s}/public/videos"
+task :scanshows => :environment do
+    root = "#{Rails.root.to_s}/public/shows"
     shows_path = get_all_shows(root)
     seasons = []
     shows_path.each do |show_path|
@@ -13,8 +13,16 @@ task :scanvideos => :environment do
         path = season.dir_path
         files = get_all_file_path(path).map {|file| file.sub! "#{root}/", ''} 
         files.each do |file_path|
-            save_db(Video, {title: file_path.split("/")[-1], file_path: file_path, season_id:season.id})
+            save_db(Video, {title: file_path.split("/")[-1].split(".")[0], file_path: file_path, season_id:season.id})
         end
+    end
+end
+
+task :scanvideos => :environment do
+    root = "#{Rails.root.to_s}/public/videos"
+    files = get_all_file_path(root).map {|file| file.sub! "#{root}/", ''}
+    files.each do |file_path|
+        save_db(Video, {title: file_path.split("/")[-1].split(".")[0], file_path: file_path})
     end
 end
 
@@ -62,20 +70,19 @@ def get_all_shows(root)
 end
 
 def get_all_file_path(root)
-    ans = []
-    accepted_formats = ['.mp4']
-    files = Dir.entries(root)
-    files.delete(".")
-    files.delete("..")
-    files.each do |file|
-        file_path = "#{root}/#{file}"
-        if File.directory? file_path
-            ans = ans + get_all_file_path(file_path)
-        else
-            if accepted_formats.include? File.extname(file_path)
-                ans << file_path
-            end
-        end
+  ans = []
+  accepted_formats = ['.mp4']
+  files = Dir.entries(root)
+  files.delete(".")
+  files.delete("..")
+  files.each do |file|
+    file_path = "#{root}/#{file}"
+    if File.directory? file_path
+      ans = ans + get_all_file_path(file_path)
+    else
+      if accepted_formats.include? File.extname(file_path)
+        ans << file_path
+      end
     end
     ans
 end
